@@ -6,18 +6,17 @@ import Head from "next/head";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignOutAlt, faBan } from "@fortawesome/free-solid-svg-icons";
 
-
 const SignOut = () => {
 	const router = useRouter();
 	const { data: session, status: loggedInStatus } = useSession({
 		required: true,
 		onUnauthenticated() {
-			router.push(`/${router.locale}/auth/signin`);
+			router.push(`/auth/signin`);
 		},
 	});
 
 	return (
-		<div className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white">
+		<div className="text-white bg-neutral-900">
 			<Head>
 				<title></title>
 			</Head>
@@ -34,34 +33,32 @@ const SignOut = () => {
 				<main className="min-h-screen flex flex-col justify-center items-center lg:p-12">
 					<section className="md:w-4/12 w-11/12">
 						<div className="my-4 text-gray-100 text-center">
-							<h1 className="text-3xl"></h1>
-							<p></p>
+							<h1 className="text-[50px] font-black mb-4">Logout</h1>
+							<p>Do you wish to log out of ReZappit?</p>
 						</div>
 
-						<button
-							className="bg-white/20 hover:bg-red1 w-full shadow-md rounded-md p-4 transition-all"
-							onClick={() => signOut({ redirect: true, callbackUrl: "/" })}
-						>
-							<FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
-							Sign Out
-						</button>
+						<div className="text-center">
+							<button
+								className="bg-neutral-800 hover:bg-red-400 transition-all w-11/12 lg:w-9/12 my-2 p-4 rounded-lg shadow-md"
+								onClick={() => signOut({ redirect: true, callbackUrl: "/" })}
+							>
+								<FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
+								Sign Out
+							</button>
 
-						<br />
-						<br />
-
-						<button
-							className="bg-white/20 hover:bg-primary w-full shadow-md rounded-md p-4 transition-all"
-							onClick={() => router.push(`/${router.locale}/app`)}
-						>
-							<FontAwesomeIcon icon={faBan} className="mr-2" />
-							Cancel
-						</button>
+							<button
+								className="bg-neutral-800 hover:brightness-125 transition-all w-11/12 lg:w-9/12 my-2 p-4 rounded-lg shadow-md"
+								onClick={() => router.push(`/${router.locale}/app`)}
+							>
+								<FontAwesomeIcon icon={faBan} className="mr-2" />
+								Cancel
+							</button>
+						</div>
 					</section>
 				</main>
 			)}
 		</div>
 	);
 };
-
 
 export default SignOut;

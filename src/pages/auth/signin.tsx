@@ -11,16 +11,16 @@ import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "nex
 
 export default function SignIn({ providers }: InferGetServerSidePropsType<typeof getServerSideProps>) {
 	return (
-		<div className="text-white bg-dark1">
+		<div className="text-white bg-neutral-900 flex flex-col items-center justify-center min-h-screen">
 			<Head>
 				<title>ewq</title>
 			</Head>
 
-			<main className="min-h-screen flex flex-col justify-center items-center lg:p-24">
+			<main className="min-h-screen flex flex-col justify-center items-center w-11/12 lg:w-1/2">
 				<section>
 					<div className="my-4 text-gray-100 text-center">
-						<p className="text-[50px] font-black mb-4">eqweq</p>
-						<p>ewq</p>
+						<p className="text-[50px] font-black mb-4">Login</p>
+						<p>Please select a provider to log in to ReZappit</p>
 					</div>
 
 					<div className="text-center">
@@ -39,7 +39,7 @@ export default function SignIn({ providers }: InferGetServerSidePropsType<typeof
 							return (
 								<div key={provider.name} className="">
 									<button
-										className="bg-white/10 hover:bg-white/20 transition-all w-11/12 lg:w-7/12 my-4 p-4 rounded-lg shadow-md"
+										className="bg-neutral-800 hover:brightness-125 transition-all w-11/12 lg:w-9/12 my-2 p-4 rounded-lg shadow-md"
 										onClick={() => signIn(provider.id)}
 									>
 										<FontAwesomeIcon className="mx-2" icon={icon} />
@@ -59,7 +59,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 	const session = await getServerSession(context.req, context.res, authOptions);
 
 	if (session) {
-		return { redirect: { destination: "/" } };
+		return { redirect: { destination: "/home" } };
 	}
 
 	const providers = await getProviders();
