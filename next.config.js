@@ -1,16 +1,20 @@
+const { i18n } = require("./next-i18next.config");
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
-  rewrites: async () => [
-    {
-      source: '/',
-      destination: '/main',
-    },
-    {
-      source: "/home",
-      destination: '/main/home',
-    }
-  ],
-}
+	reactStrictMode: true,
+	i18n,
 
-module.exports = nextConfig
+	rewrites: async () => [
+		{
+			source: "/",
+			destination: "/main",
+		},
+		{
+			source: "/home",
+			destination: "/main/home",
+		},
+	],
+};
+
+module.exports = nextConfig;

@@ -72,7 +72,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 	return {
 		props: {
 			providers: providers ?? [],
-			...(await serverSideTranslations(context.locale ?? "en", ["auth/signin", "components/navbar"])),
+			...(await serverSideTranslations(context.locale ?? "en", ["auth/signin"])),
 		},
 	};
 }

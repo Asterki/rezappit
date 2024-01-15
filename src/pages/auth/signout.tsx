@@ -71,7 +71,7 @@ const SignOut = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
 
 export const getStaticProps: GetStaticProps<Props> = async ({ locale }) => ({
 	props: {
-		...(await serverSideTranslations(locale ?? "en", ["auth/signout", "components/navbar"])),
+		...(await serverSideTranslations(locale ?? "en", ["auth/signout"])),
 	},
 });
 

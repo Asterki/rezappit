@@ -1,8 +1,21 @@
 import * as React from "react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-const IndexPage = () => {
+
+import type { GetStaticProps, InferGetStaticPropsType } from "next";
+type Props = {};
+
+const MainIndex = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
 	const router = useRouter();
+	const { t } = useTranslation(["main/index", "components/navbar"]);
+    const { data: session } = useSession({
+        required: false,
+    });
+
+	console.log(router)
 
 	return (
 		<div className="text-white bg-neutral-800 flex flex-col items-center justify-center min-h-screen">
@@ -20,9 +33,7 @@ const IndexPage = () => {
 					</button>
 					<button
 						className="p-2 m-2 bg-neutral-400 rounded-md"
-						onClick={() => {
-							router.push("/auth/signin");
-						}}
+						onClick={() => router.push(`/${router.locale}/auth/signin`)}
 					>
 						Login then
 					</button>
@@ -32,4 +43,11 @@ const IndexPage = () => {
 	);
 };
 
-export default IndexPage;
+export const getStaticProps: GetStaticProps<Props> = async ({ locale }) => ({
+    props: {
+        ...(await serverSideTranslations(locale ?? "en", ["main/index", "components/navbar"])),
+    },
+});
+
+
+export default MainIndex;
