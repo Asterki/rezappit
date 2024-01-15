@@ -27,8 +27,9 @@ yarn-error.log*
 
 # local env files
 # Keep environment variables out of version control
-.env*.localnode_modules
+.env*.local
 .env
+.env.local
 
 
 # vercel
