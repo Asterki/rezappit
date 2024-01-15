@@ -1,0 +1,10 @@
+{
+	"pageTitle": "ReZappit | Log out",
+	"loading": "Loading...",
+	"title": "Log out",
+	"desc": "Do you wish to log out of ReZappit?",
+	"buttons": {
+		"signout": "Sign Out",
+		"cancel": "Cancel"
+	}
+}
