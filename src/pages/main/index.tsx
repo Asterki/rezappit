@@ -5,6 +5,7 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 
+
 import type { GetStaticProps, InferGetStaticPropsType } from "next";
 type Props = {};
 
@@ -14,8 +15,6 @@ const MainIndex = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
     const { data: session } = useSession({
         required: false,
     });
-
-	console.log(router)
 
 	return (
 		<div className="text-white bg-neutral-800 flex flex-col items-center justify-center min-h-screen">
