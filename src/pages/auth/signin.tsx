@@ -16,7 +16,7 @@ export default function SignIn({ providers }: InferGetServerSidePropsType<typeof
 	const { t } = useTranslation(["auth/signin"]);
 
 	return (
-		<div className="text-white bg-neutral-900 flex flex-col items-center justify-center min-h-screen">
+		<div className="text-white bg-dark-2 flex flex-col items-center justify-center min-h-screen">
 			<Head>
 				<title>{t("pageTitle")}</title>
 			</Head>

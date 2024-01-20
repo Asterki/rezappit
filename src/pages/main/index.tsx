@@ -17,7 +17,7 @@ const MainIndex = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
     });
 
 	return (
-		<div className="text-white bg-neutral-800 flex flex-col items-center justify-center min-h-screen">
+		<div className="text-white bg-dark-1 min-h-screen flex justify-center">
 			<main>
 				<p className="text-2xl">So yeah this is zappit</p>
 

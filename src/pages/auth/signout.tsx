@@ -24,7 +24,7 @@ const SignOut = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
 	});
 
 	return (
-		<div className="text-white bg-neutral-900">
+		<div className="text-white bg-dark-2">
 			<Head>
 				<title>{t("pageTitle")}</title>
 			</Head>

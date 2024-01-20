@@ -20,7 +20,7 @@ const HomePage = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
 	});
 
 	return (
-		<div className="text-white bg-neutral-800 min-h-screen flex justify-center">
+		<div className="text-white bg-dark-1 min-h-screen flex justify-center">
 			<NavbarComponent />
 
 			<main className="flex justify-around mt-20 w-10/12">
