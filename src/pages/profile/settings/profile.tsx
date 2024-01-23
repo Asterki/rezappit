@@ -9,7 +9,7 @@ import NavbarComponent from "@/components/navbar";
 import SettingsLeftBarComponent from "@/components/profile/settingsLeftBar";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencil } from "@fortawesome/free-solid-svg-icons";
+import { faFloppyDisk, faPencil } from "@fortawesome/free-solid-svg-icons";
 
 import type { GetStaticProps, InferGetStaticPropsType } from "next";
 type Props = {};
@@ -17,11 +17,18 @@ type Props = {};
 const SettingsProfilePage = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
 	const router = useRouter();
 	const { t } = useTranslation(["main/index", "components/navbar"]);
-	const { data: session, status: loggedInStatus } = useSession({
+	const {
+		data: session,
+		status: loggedInStatus,
+		update,
+	} = useSession({
 		required: true,
 	});
 
 	const [bio, setBio] = React.useState<string>("");
+
+	const [editingName, setEditingName] = React.useState<boolean>(false);
+	const [editingBio, setEditingBio] = React.useState<boolean>(false);
 
 	const bioInput = React.useRef<HTMLInputElement>(null);
 
@@ -46,35 +53,64 @@ const SettingsProfilePage = (_props: InferGetStaticPropsType<typeof getStaticPro
 							/>
 
 							<div className="flex items-center mt-2 justify-center relative group">
-								<p className="text-xl  mr-2">{session.user.name}</p>
+								<p className={`text-xl  mr-2 ${!editingName ? "block" : "hidden"}`}>
+									{session.user.name}
+								</p>
+								<input
+									type="text"
+									placeholder="Empty"
+									defaultValue={session.user.name!}
+									onChange={e => {}}
+									id="name-input"
+									className={`mr-2 bg-transparent p-2 w-full rounded-md outline-none transition-all placeholder:text-neutral-400 hover:bg-dark-2 focus:box-shadow-md focus:bg-dark-2 ${
+										editingName ? "block" : "hidden"
+									}`}
+								/>
+
 								<FontAwesomeIcon
-									icon={faPencil}
-									className="absolute right-[-15px] text-neutral-400 group-hover:opacity-100 opacity-0  transition-all"
+									icon={editingName ? faFloppyDisk : faPencil}
+									onClick={() => {
+										setEditingName(!editingName);
+									}}
+									className="absolute right-[-15px] text-neutral-400 transition-all cursor-pointer"
 								/>
 							</div>
 							<p className="text-neutral-400">{session.user.email}</p>
+						</section>
 
-							<div className="lg:w-7/12 w-full mt-6 flex items-center relative group">
-								<p className="font-semibold mr-2">Bio</p>
-								<input
-									ref={bioInput}
-									type="text"
-									placeholder="Empty"
-									maxLength={100}
-									defaultValue={bio}
-									onChange={e => {
-										setBio(e.target.value);
-									}}
-									id="bio-input"
-									className="peer bg-transparent p-2 w-full rounded-md outline-none transition-all placeholder:text-neutral-400 hover:bg-dark-2 focus:box-shadow-md focus:bg-dark-2"
-								/>
+						<section className="lg:w-7/12 w-full mt-6 flex items-center relative group">
+							<p className="font-semibold mr-2">Bio</p>
 
-								<p
-									className="absolute text-sm text-neutral-400 transition-all cursor-pointer top-10 right-0 peer-hover:opacity-100 peer-focus:opacity-100 opacity-0"
-								>
-									{bio.length}/100
-								</p>
-							</div>
+							<p className={` mr-2 ${!editingBio ? "block" : "hidden"}`}>
+								{session.user.name} bio and stuff right
+							</p>
+
+							<input
+								ref={bioInput}
+								type="text"
+								placeholder="Empty"
+								maxLength={100}
+								defaultValue={bio}
+								onChange={e => {
+									setBio(e.target.value);
+								}}
+								id="bio-input"
+								className={`peer bg-transparent p-2 w-full rounded-md outline-none transition-all placeholder:text-neutral-400 hover:bg-dark-2 focus:box-shadow-md focus:bg-dark-2 mr-2 ${
+									editingBio ? "block" : "hidden"
+								}`}
+							/>
+
+							<FontAwesomeIcon
+								icon={editingBio ? faFloppyDisk : faPencil}
+								onClick={() => {
+									setEditingBio(!editingBio);
+								}}
+								className="absolute right-[-15px] text-neutral-400 transition-all cursor-pointer"
+							/>
+
+							<p className="absolute text-sm text-neutral-400 transition-all cursor-pointer top-10 right-0 peer-hover:opacity-100 peer-focus:opacity-100 opacity-0">
+								{bio.length}/100
+							</p>
 						</section>
 					</div>
 				</main>
