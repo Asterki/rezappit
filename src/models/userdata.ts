@@ -4,10 +4,6 @@ const schema = new mongoose.Schema(
 	{
 		_id: String,
 		profile: {
-			name: {
-				type: String,
-				required: true,
-			},
 			username: {
 				type: String,
 				required: true,
