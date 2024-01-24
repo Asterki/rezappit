@@ -7,27 +7,34 @@ import NextAuth, { AuthOptions } from "next-auth";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import clientPromise from "@/lib/mongodb";
 
-import UserDataModel from "@/models/userdata";
+import UserDataModel, { UserDataModelType } from "@/models/userdata";
+import mongoose from "mongoose";
 
 export const authOptions: AuthOptions = {
 	secret: process.env.SESSION_SECRET as string,
 	adapter: MongoDBAdapter(clientPromise) as any,
 	callbacks: {
-		session(data) {
-			// Add the user id to session information, which can be used to fetch information about the user in the database
-			let newSession = { ...data.session, id: data.user.id };
+		session: async data => {
+			// Add the user id and username to session information, which can be used to fetch information about the user in the database
+			const userProfile: mongoose.HydratedDocument<UserDataModelType> | null = await UserDataModel.findById(data.user.id);
+			if (!userProfile) return data.session;
+
+			let newSession = {
+				...data.session,
+				user: { ...data.session.user, id: data.user.id, username: userProfile.username },
+			};
+
 			return newSession;
 		},
 	},
 	events: {
 		// TODO: Save for user statistics and admin panel
 		async createUser({ user }) {
-			// Create a custom user in the database
+			// Create a user profile
 			await UserDataModel.create({
 				_id: user.id,
+				username: user.email!.split("@")[0] + Math.floor(Math.random() * 1000).toString(),
 				profile: {
-					name: user.name,
-					username: user.email!.split("@")[0] + Math.floor(Math.random() * 1000).toString(),
 					bio: "",
 				},
 			});

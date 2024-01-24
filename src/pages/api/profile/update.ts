@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 
 import userdata from "@/models/userdata";
+import user from "@/models/user";
 import { z } from "zod";
 
 type Data = {
@@ -9,7 +10,6 @@ type Data = {
 };
 
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import { Session } from "next-auth";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
 	if (req.method !== "POST") return res.status(405).json({ message: "method-not-allowed" });
@@ -21,12 +21,27 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 		const parsedBody = z
 			.object({
 				bio: z.string().max(100),
+				name: z.string().min(2).max(40),
+				username: z.string().min(2).max(22),
 			})
 			.safeParse(req.body);
 
 		if (parsedBody.success === false) return res.status(400).json({ message: "bad-request" });
 
-		await userdata.findByIdAndUpdate((session as Session & { id: String }).id, { bio: parsedBody.data.bio });
+		// Update profile object
+		await userdata.updateOne(
+			{ _id: session.user!.id },
+			{
+				username: parsedBody.data.username,
+				profile: {
+					bio: parsedBody.data.bio,
+				},
+			},
+		);
+
+		// Update account object
+		if (session.user!.name !== parsedBody.data.name) await user.updateOne({ email: session.user?.email }, { name: parsedBody.data.name });
+
 		return res.status(200).json({ message: "success" });
 	} catch (error) {
 		return res.status(500).json({ message: "server-error" });

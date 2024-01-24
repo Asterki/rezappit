@@ -31,9 +31,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
 		if (parsedBody.data.username == "s") { // The "s" stands for "self", as in, the user is requesting their own profile
 			if (!session) return res.status(401).json({ message: "unauthorized" });
-			const data = await userdata.findById((session as Session & { id: String }).id);
-
-
+			const data = await userdata.findById(session.user!.id);
 
 			if (!data) return res.status(404).json({ message: "not-found" });
 			return res.status(200).json({ profile: data.profile, message: "success" });

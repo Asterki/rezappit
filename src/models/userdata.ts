@@ -3,12 +3,12 @@ import mongoose from "mongoose";
 const schema = new mongoose.Schema(
 	{
 		_id: String,
+		username: {
+			type: String,
+			required: true,
+			unique: true,
+		},
 		profile: {
-			username: {
-				type: String,
-				required: true,
-				unique: true,
-			},
 			bio: {
 				type: String,
 				default: "",
@@ -22,3 +22,13 @@ const schema = new mongoose.Schema(
 );
 
 export default mongoose.models.UserData || mongoose.model("UserData", schema);
+
+interface UserDataModelType {
+	_id: string;
+	username: string;
+	profile: {
+		bio: string;
+	};
+}
+
+export type { UserDataModelType };

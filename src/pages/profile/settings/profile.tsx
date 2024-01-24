@@ -32,6 +32,7 @@ const SettingsProfilePage = (_props: InferGetStaticPropsType<typeof getStaticPro
 	const [profile, setProfile] = React.useState({
 		bio: "",
 		username: "",
+		name: "",
 	});
 
 	const [editingName, setEditingName] = React.useState<boolean>(false);
@@ -40,8 +41,22 @@ const SettingsProfilePage = (_props: InferGetStaticPropsType<typeof getStaticPro
 
 	const bioInput = React.useRef<HTMLInputElement>(null);
 
+	const updateProfile = async () => {
+		const response: AxiosResponse<FetchProfileDataResponse> = await axios({
+			method: "post",
+			url: "/api/profile/update",
+			data: {
+				...profile,
+			},
+		});
+
+		console.log(response.data);
+	};
+
 	React.useEffect(() => {
 		(async () => {
+			if (loggedInStatus !== "authenticated" || !session.user) return;
+
 			const response: AxiosResponse<FetchProfileDataResponse> = await axios({
 				method: "post",
 				url: "/api/profile/fetch",
@@ -50,9 +65,14 @@ const SettingsProfilePage = (_props: InferGetStaticPropsType<typeof getStaticPro
 				},
 			});
 
-			if (response.data.profile) setProfile(response.data.profile);
+			if (response.data.profile)
+				setProfile({
+					name: session.user.name,
+					username: session.user.username,
+					bio: response.data.profile?.bio,
+				});
 		})();
-	}, []);
+	}, [loggedInStatus, session]);
 
 	return (
 		<div className="text-white bg-dark-1 min-h-screen flex justify-center">
@@ -75,14 +95,17 @@ const SettingsProfilePage = (_props: InferGetStaticPropsType<typeof getStaticPro
 							/>
 
 							<div className="flex items-center mt-2 justify-center relative group">
-								<p className={`text-xl  mr-2 ${!editingName ? "block" : "hidden"}`}>
-									{session.user.name}
-								</p>
+								<p className={`text-xl  mr-2 ${!editingName ? "block" : "hidden"}`}>{profile.name}</p>
 								<input
 									type="text"
 									placeholder="Empty"
 									defaultValue={session.user.name!}
-									onChange={e => {}}
+									onChange={e => {
+										setProfile({
+											...profile,
+											name: e.target.value,
+										});
+									}}
 									id="name-input"
 									className={`mr-2 bg-transparent p-2 w-full rounded-md outline-none transition-all placeholder:text-neutral-400 hover:bg-dark-2 focus:box-shadow-md focus:bg-dark-2 ${
 										editingName ? "block" : "hidden"
@@ -93,6 +116,7 @@ const SettingsProfilePage = (_props: InferGetStaticPropsType<typeof getStaticPro
 									icon={editingName ? faFloppyDisk : faPencil}
 									onClick={() => {
 										setEditingName(!editingName);
+										if (editingName) updateProfile();
 									}}
 									className="absolute right-[-15px] text-neutral-400 transition-all cursor-pointer"
 								/>
@@ -123,6 +147,7 @@ const SettingsProfilePage = (_props: InferGetStaticPropsType<typeof getStaticPro
 									icon={editingUsername ? faFloppyDisk : faPencil}
 									onClick={() => {
 										setEditingUsername(!editingUsername);
+										if (editingUsername) updateProfile();
 									}}
 									className="absolute right-[-15px] text-neutral-400 transition-all cursor-pointer"
 								/>
@@ -158,6 +183,7 @@ const SettingsProfilePage = (_props: InferGetStaticPropsType<typeof getStaticPro
 								icon={editingBio ? faFloppyDisk : faPencil}
 								onClick={() => {
 									setEditingBio(!editingBio);
+									if (editingBio) updateProfile();
 								}}
 								className="absolute right-[-15px] text-neutral-400 transition-all cursor-pointer"
 							/>
