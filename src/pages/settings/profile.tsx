@@ -111,6 +111,8 @@ const SettingsProfilePage = (_props: InferGetStaticPropsType<typeof getStaticPro
 				},
 			});
 
+			console.log(response, session)
+
 			if (response.data.profile)
 				setProfile({
 					name: session.user.name,

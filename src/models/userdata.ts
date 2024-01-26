@@ -25,8 +25,8 @@ export default mongoose.models.UserData || mongoose.model("UserData", schema);
 
 interface UserDataModelType {
 	_id: string;
-	username: string;
 	profile: {
+		username: string;
 		bio: string;
 	};
 }
