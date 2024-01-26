@@ -32,15 +32,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 		await userdata.updateOne(
 			{ _id: session.user!.id },
 			{
-				username: parsedBody.data.username,
 				profile: {
+					username: parsedBody.data.username,
 					bio: parsedBody.data.bio,
 				},
 			},
 		);
 
 		// Update account object
-		if (session.user!.name !== parsedBody.data.name) await user.updateOne({ email: session.user?.email }, { name: parsedBody.data.name });
+		if (session.user!.name !== parsedBody.data.name)
+			await user.updateOne({ email: session.user?.email }, { name: parsedBody.data.name });
 
 		return res.status(200).json({ message: "success" });
 	} catch (error) {

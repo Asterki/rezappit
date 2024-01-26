@@ -3,12 +3,12 @@ import mongoose from "mongoose";
 const schema = new mongoose.Schema(
 	{
 		_id: String,
-		username: {
-			type: String,
-			required: true,
-			unique: true,
-		},
 		profile: {
+			username: {
+				type: String,
+				required: true,
+				unique: true,
+			},
 			bio: {
 				type: String,
 				default: "",

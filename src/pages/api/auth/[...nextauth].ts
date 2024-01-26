@@ -33,8 +33,8 @@ export const authOptions: AuthOptions = {
 			// Create a user profile
 			await UserDataModel.create({
 				_id: user.id,
-				username: user.email!.split("@")[0] + Math.floor(Math.random() * 1000).toString(),
 				profile: {
+					username: user.email!.split("@")[0] + Math.floor(Math.random() * 1000).toString(),
 					bio: "",
 				},
 			});

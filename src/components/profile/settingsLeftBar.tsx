@@ -27,7 +27,7 @@ const Options = (props: ComponentProps & { className: string }) => {
 					props.activeCategory == "general" ? "text-white" : ""
 				} my-2 transition-all hover:brightness-125 cursor-pointer`}
 				onClick={() => {
-					props.router.push("/profile/settings/general");
+					props.router.push("/settings");
 				}}
 			>
 				General
@@ -37,7 +37,7 @@ const Options = (props: ComponentProps & { className: string }) => {
 					props.activeCategory == "profile" ? "text-white" : ""
 				} my-2 transition-all hover:brightness-125 cursor-pointer`}
 				onClick={() => {
-					props.router.push("/profile/settings/profile");
+					props.router.push("/settings/profile");
 				}}
 			>
 				Profile
@@ -47,7 +47,7 @@ const Options = (props: ComponentProps & { className: string }) => {
 					props.activeCategory == "security" ? "text-white" : ""
 				} my-2 transition-all hover:brightness-125 cursor-pointer`}
 				onClick={() => {
-					props.router.push("/profile/settings/security");
+					props.router.push("/settings/security");
 				}}
 			>
 				Security
@@ -57,7 +57,7 @@ const Options = (props: ComponentProps & { className: string }) => {
 					props.activeCategory == "privacy" ? "text-white" : ""
 				} my-2 transition-all hover:brightness-125 cursor-pointer`}
 				onClick={() => {
-					props.router.push("/profile/settings/privacy");
+					props.router.push("/settings/privacy");
 				}}
 			>
 				Privacy
@@ -67,7 +67,7 @@ const Options = (props: ComponentProps & { className: string }) => {
 					props.activeCategory == "notifications" ? "text-white" : ""
 				} my-2 transition-all hover:brightness-125 cursor-pointer`}
 				onClick={() => {
-					props.router.push("/profile/settings/notifications");
+					props.router.push("/settings/notifications");
 				}}
 			>
 				Notifications
@@ -77,7 +77,7 @@ const Options = (props: ComponentProps & { className: string }) => {
 					props.activeCategory == "account" ? "text-white" : ""
 				} my-2 transition-all hover:brightness-125 cursor-pointer`}
 				onClick={() => {
-					props.router.push("/profile/settings/account");
+					props.router.push("/settings/account");
 				}}
 			>
 				Account
@@ -87,7 +87,7 @@ const Options = (props: ComponentProps & { className: string }) => {
 					props.activeCategory == "billing" ? "text-white" : ""
 				} my-2 transition-all hover:brightness-125 cursor-pointer`}
 				onClick={() => {
-					props.router.push("/profile/settings/billing");
+					props.router.push("/settings/billing");
 				}}
 			>
 				Billing
@@ -97,7 +97,7 @@ const Options = (props: ComponentProps & { className: string }) => {
 					props.activeCategory == "help" ? "text-white" : ""
 				} my-2 transition-all hover:brightness-125 cursor-pointer`}
 				onClick={() => {
-					props.router.push("/profile/settings/help");
+					props.router.push("/settings/help");
 				}}
 			>
 				Help

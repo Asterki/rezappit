@@ -44,7 +44,7 @@ const HomePage = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
 
 					<div
 						className="transition-all hover:brightness-125 bg-neutral-900 rounded-md p-4 w-full flex items-center cursor-pointer my-2"
-						onClick={() => router.push(`/${router.locale}/profile/settings`)}
+						onClick={() => router.push(`/${router.locale}/settings`)}
 					>
 						<FontAwesomeIcon icon={faGear} className="mr-2 w-4 h-4" />
 						<p className="m-0">Settings</p>

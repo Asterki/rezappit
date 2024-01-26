@@ -32,9 +32,9 @@ const MainIndex = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
 					</button>
 					<button
 						className="p-2 m-2 bg-neutral-400 rounded-md"
-						onClick={() => router.push(`/${router.locale}/auth/signin`)}
+						onClick={() => router.push(`/home`)}
 					>
-						Login then
+						Home
 					</button>
 				</div>
 			</main>
