@@ -8,6 +8,7 @@ type Data = {
 	profile?: {
 		username: string;
 		bio: string;
+		imageID: string;
 	};
 	message?: "success" | "method-not-allowed" | "unauthorized" | "server-error" | "bad-request" | "not-found";
 };

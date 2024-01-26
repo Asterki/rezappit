@@ -16,7 +16,9 @@ export const authOptions: AuthOptions = {
 	callbacks: {
 		session: async data => {
 			// Add the user id and username to session information, which can be used to fetch information about the user in the database
-			const userData: mongoose.HydratedDocument<UserDataModelType> | null = await UserDataModel.findById(data.user.id);
+			const userData: mongoose.HydratedDocument<UserDataModelType> | null = await UserDataModel.findById(
+				data.user.id,
+			);
 			if (!userData) return data.session;
 
 			let newSession = {
@@ -35,6 +37,7 @@ export const authOptions: AuthOptions = {
 				_id: user.id,
 				profile: {
 					username: user.email!.split("@")[0] + Math.floor(Math.random() * 1000).toString(),
+					imageID: "",
 					bio: "",
 				},
 			});

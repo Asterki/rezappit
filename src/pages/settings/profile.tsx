@@ -16,6 +16,7 @@ import { faFloppyDisk, faPencil, faSpinner } from "@fortawesome/free-solid-svg-i
 
 // API Types
 import type { Data as FetchProfileDataResponse } from "@/pages/api/profile/fetch";
+import type { Data as ProfilePictureUploadDataResponse } from "@/pages/api/profile/picture/upload";
 
 import type { GetStaticProps, InferGetStaticPropsType } from "next";
 type Props = {};
@@ -35,6 +36,7 @@ const SettingsProfilePage = (_props: InferGetStaticPropsType<typeof getStaticPro
 		bio: "",
 		username: "",
 		name: "",
+		imageID: "",
 	});
 
 	// Input related
@@ -42,7 +44,7 @@ const SettingsProfilePage = (_props: InferGetStaticPropsType<typeof getStaticPro
 	const [usernameInputStatus, setUsernameInputStatus] = React.useState<"editing" | "showing" | "saving">("showing");
 	const [bioInputStatus, setBioInputStatus] = React.useState<"editing" | "showing" | "saving">("showing");
 
-	const bioInput = React.useRef<HTMLInputElement>(null);
+	const profileUploadInput = React.useRef<HTMLInputElement>(null);
 
 	// Modal related
 	const [showingModal, setShowingModal] = React.useState<boolean>(false);
@@ -111,13 +113,12 @@ const SettingsProfilePage = (_props: InferGetStaticPropsType<typeof getStaticPro
 				},
 			});
 
-			console.log(response, session)
-
 			if (response.data.profile)
 				setProfile({
 					name: session.user.name,
 					username: session.user.username,
 					bio: response.data.profile?.bio,
+					imageID: response.data.profile?.imageID,
 				});
 		})();
 	}, [loggedInStatus, session]);
@@ -143,13 +144,56 @@ const SettingsProfilePage = (_props: InferGetStaticPropsType<typeof getStaticPro
 						<h1 className="text-2xl font-bold text-center">Profile Settings</h1>
 
 						<section className="flex items-center flex-col my-4 w-full py-2">
-							<Image
-								width={100}
-								height={100}
-								className="rounded-full"
-								src={session.user.image || "https://placehold.co/400x400"}
-								alt={"session.user.name"}
-							/>
+							<div
+								className="group relative rounded-full"
+								onClick={() => {
+									profileUploadInput.current?.click();
+								}}
+							>
+								<input
+									type="file"
+									className="hidden"
+									ref={profileUploadInput}
+									accept="image/x-png,image/jpeg"
+									onChange={async e => {
+										const file = e.target.files?.[0];
+										if (!file) return;
+
+										const formData = new FormData();
+										formData.append("profile", file);
+
+										const response: AxiosResponse<ProfilePictureUploadDataResponse> = await axios({
+											method: "post",
+											url: "/api/profile/picture/upload",
+											data: formData,
+											headers: {
+												"Content-Type": "multipart/form-data",
+											},
+										});
+
+										if (response.data.message == "success") {
+											update();
+										}
+									}}
+								/>
+
+								<Image
+									width={100}
+									height={100}
+									className="rounded-full transition-all group-hover:brightness-50 cursor-pointer"
+									src={
+										profile.imageID == ""
+											? "/images/default-profile.png"
+											: `/data/profile-pictures/${session.user.id}/${profile.imageID}.png`
+									}
+									alt={"session.user.name"}
+								/>
+
+								<FontAwesomeIcon
+									icon={faPencil}
+									className="absolute text-lg text-white transition-all cursor-pointer top-1/2 right-1/2 translate-x-[50%] translate-y-[-50%] group-hover:opacity-100 peer-focus:opacity-100 opacity-0"
+								/>
+							</div>
 
 							<div className="flex items-center mt-2 justify-center relative group">
 								<p className={`text-xl  mr-2 ${nameInputStatus !== "editing" ? "block" : "hidden"}`}>
@@ -194,6 +238,10 @@ const SettingsProfilePage = (_props: InferGetStaticPropsType<typeof getStaticPro
 										className="absolute right-[-15px] text-neutral-400 transition-all cursor-pointer animate-spin"
 									/>
 								)}
+
+								<p className="absolute text-sm text-neutral-400 transition-all cursor-pointer top-10 right-0 peer-hover:opacity-100 peer-focus:opacity-100 opacity-0">
+									{profile.bio.length}/100
+								</p>
 							</div>
 
 							<div className="flex items-center mt-2 justify-center relative group">
@@ -215,6 +263,7 @@ const SettingsProfilePage = (_props: InferGetStaticPropsType<typeof getStaticPro
 											username: e.target.value,
 										});
 									}}
+									max={22}
 									id="name-input"
 									className={`mr-2 bg-transparent p-2 w-full rounded-md outline-none transition-all placeholder:text-neutral-400 hover:bg-dark-2 focus:box-shadow-md focus:bg-dark-2 ${
 										usernameInputStatus == "editing" ? "block" : "hidden"
@@ -245,6 +294,10 @@ const SettingsProfilePage = (_props: InferGetStaticPropsType<typeof getStaticPro
 										className="absolute right-[-15px] text-neutral-400 transition-all cursor-pointer animate-spin"
 									/>
 								)}
+
+								<p className="absolute text-sm text-neutral-400 transition-all cursor-pointer top-10 right-0 peer-hover:opacity-100 peer-focus:opacity-100 opacity-0">
+									{profile.username.length}/22
+								</p>
 							</div>
 						</section>
 
@@ -256,7 +309,6 @@ const SettingsProfilePage = (_props: InferGetStaticPropsType<typeof getStaticPro
 							</p>
 
 							<input
-								ref={bioInput}
 								type="text"
 								placeholder="Empty"
 								maxLength={100}

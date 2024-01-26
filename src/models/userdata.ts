@@ -9,6 +9,10 @@ const schema = new mongoose.Schema(
 				required: true,
 				unique: true,
 			},
+			imageID: {
+				type: String,
+				default: "",
+			},
 			bio: {
 				type: String,
 				default: "",
@@ -27,6 +31,7 @@ interface UserDataModelType {
 	_id: string;
 	profile: {
 		username: string;
+		imageID: string;
 		bio: string;
 	};
 }

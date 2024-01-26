@@ -32,6 +32,11 @@ yarn-error.log*
 .env.local
 
 
+# Data
+# Ignore data directory
+public/data/
+
+
 # vercel
 .vercel
 

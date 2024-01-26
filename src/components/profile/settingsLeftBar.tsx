@@ -1,21 +1,12 @@
 import * as React from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-	faGear,
-	faPerson,
-	faShield,
-	faStaffAesculapius,
-	faBell,
-	faCreditCard,
-	faIdCard,
-	faHandsHelping,
-	faChevronCircleDown,
-} from "@fortawesome/free-solid-svg-icons";
+import { faChevronCircleDown } from "@fortawesome/free-solid-svg-icons";
+
 import { NextPage } from "next";
 
 interface ComponentProps {
-	activeCategory: "general" | "profile" | "security" | "privacy" | "notifications" | "account" | "billing" | "help";
+	activeCategory: "general" | "profile" | "privacy" | "notifications" | "account" | "billing" | "help";
 	router: any;
 }
 
@@ -41,16 +32,6 @@ const Options = (props: ComponentProps & { className: string }) => {
 				}}
 			>
 				Profile
-			</li>
-			<li
-				className={`${
-					props.activeCategory == "security" ? "text-white" : ""
-				} my-2 transition-all hover:brightness-125 cursor-pointer`}
-				onClick={() => {
-					props.router.push("/settings/security");
-				}}
-			>
-				Security
 			</li>
 			<li
 				className={`${
