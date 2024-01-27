@@ -1,6 +1,5 @@
 import { getServerSession } from "next-auth";
 import formidable, { IncomingForm } from "formidable";
-import { z } from "zod";
 import { v4 as uuidv4 } from "uuid";
 import fs from "fs-extra";
 import sharp from "sharp";
