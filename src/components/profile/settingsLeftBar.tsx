@@ -12,11 +12,11 @@ interface ComponentProps {
 
 const Options = (props: ComponentProps & { className: string }) => {
 	return (
-		<ul className={`flex flex-col text-sm text-neutral-500 ${props.className}`}>
+		<ul className={`flex flex-col text-sm text-dark-3 ${props.className}`}>
 			<li
 				className={`${
-					props.activeCategory == "general" ? "text-white" : ""
-				} my-2 transition-all hover:brightness-125 cursor-pointer`}
+					props.activeCategory == "general" ? "text-primary" : "hover:text-white"
+				} my-2 transition-all cursor-pointer font-bold text-lg`}
 				onClick={() => {
 					props.router.push("/settings");
 				}}
@@ -25,8 +25,8 @@ const Options = (props: ComponentProps & { className: string }) => {
 			</li>
 			<li
 				className={`${
-					props.activeCategory == "profile" ? "text-white" : ""
-				} my-2 transition-all hover:brightness-125 cursor-pointer`}
+					props.activeCategory == "profile" ? "text-primary" : "hover:text-white"
+				} my-2 transition-all cursor-pointer font-bold text-lg`}
 				onClick={() => {
 					props.router.push("/settings/profile");
 				}}
@@ -35,8 +35,8 @@ const Options = (props: ComponentProps & { className: string }) => {
 			</li>
 			<li
 				className={`${
-					props.activeCategory == "privacy" ? "text-white" : ""
-				} my-2 transition-all hover:brightness-125 cursor-pointer`}
+					props.activeCategory == "privacy" ? "text-primary" : "hover:text-white"
+				} my-2 transition-all cursor-pointer font-bold text-lg`}
 				onClick={() => {
 					props.router.push("/settings/privacy");
 				}}
@@ -45,8 +45,8 @@ const Options = (props: ComponentProps & { className: string }) => {
 			</li>
 			<li
 				className={`${
-					props.activeCategory == "notifications" ? "text-white" : ""
-				} my-2 transition-all hover:brightness-125 cursor-pointer`}
+					props.activeCategory == "notifications" ? "text-primary" : "hover:text-white"
+				} my-2 transition-all cursor-pointer font-bold text-lg`}
 				onClick={() => {
 					props.router.push("/settings/notifications");
 				}}
@@ -55,8 +55,8 @@ const Options = (props: ComponentProps & { className: string }) => {
 			</li>
 			<li
 				className={`${
-					props.activeCategory == "account" ? "text-white" : ""
-				} my-2 transition-all hover:brightness-125 cursor-pointer`}
+					props.activeCategory == "account" ? "text-primary" : "hover:text-white"
+				} my-2 transition-all cursor-pointer font-bold text-lg`}
 				onClick={() => {
 					props.router.push("/settings/account");
 				}}
@@ -65,8 +65,8 @@ const Options = (props: ComponentProps & { className: string }) => {
 			</li>
 			<li
 				className={`${
-					props.activeCategory == "billing" ? "text-white" : ""
-				} my-2 transition-all hover:brightness-125 cursor-pointer`}
+					props.activeCategory == "billing" ? "text-primary" : "hover:text-white"
+				} my-2 transition-all cursor-pointer font-bold text-lg`}
 				onClick={() => {
 					props.router.push("/settings/billing");
 				}}
@@ -75,8 +75,8 @@ const Options = (props: ComponentProps & { className: string }) => {
 			</li>
 			<li
 				className={`${
-					props.activeCategory == "help" ? "text-white" : ""
-				} my-2 transition-all hover:brightness-125 cursor-pointer`}
+					props.activeCategory == "help" ? "text-primary" : "hover:text-white"
+				} my-2 transition-all cursor-pointer font-bold text-lg`}
 				onClick={() => {
 					props.router.push("/settings/help");
 				}}
@@ -91,9 +91,9 @@ const SettingsLeftBarComponent: NextPage<ComponentProps> = props => {
 	const [categoriesOpen, setCategoriesOpen] = React.useState(false);
 
 	return (
-		<div className="rounded-md bg-neutral-900 p-4 lg:w-3/12 w-full sticky self-start lg:my-12 my-6">
+		<div className="rounded-md p-4 lg:w-3/12 lg:ml-32 lg:mr-24 w-full sticky self-start lg:my-12 my-6">
 			<p
-				className="text-bold text-xl mb-2 flex items-center justify-between cursor-pointer"
+				className="text-bold text-3xl font-bold mb-2 flex items-center justify-between"
 				onClick={() => {
 					setCategoriesOpen(!categoriesOpen);
 				}}

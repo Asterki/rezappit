@@ -14,9 +14,11 @@ const config: Config = {
 			},
 
 			colors: {
-				"dark-1": "#262626",
-				"dark-2": "#212121",
+				"dark-1": "#1C1C1C",
+				"dark-2": "#252525",
+				"dark-3": "#B6B6B6",
 				"accent-7": "#333",
+				"primary": "#5B42DC",
 				success: "#0070f3",
 				cyan: "#79FFE1",
 			},

@@ -32,9 +32,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 		await userdata.updateOne(
 			{ _id: session.user!.id },
 			{
-				profile: {
-					username: parsedBody.data.username,
-					bio: parsedBody.data.bio,
+				$set: {
+					"profile.username": parsedBody.data.username,
+					"profile.bio": parsedBody.data.bio,
 				},
 			},
 		);
