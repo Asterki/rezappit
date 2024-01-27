@@ -6,7 +6,7 @@ import fs from "fs-extra";
 import sharp from "sharp";
 import path from "path";
 
-import userdata from "@/models/userdata";
+import userdata, { UserDataModelType } from "@/models/userdata";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
 type Data = {
@@ -20,6 +20,7 @@ export const config = {
 };
 
 import type { NextApiRequest, NextApiResponse } from "next";
+import { HydratedDocument } from "mongoose";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
 	if (req.method !== "POST") return res.status(405).json({ message: "method-not-allowed" });
@@ -50,7 +51,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 		let imgID = uuidv4();
 
 		// Save the image
-		let newPath = path.join(process.cwd(), "/public/data/profile-pictures/", session.user!.id) + "/" + imgID + "." + "png";
+		let newPath =
+			path.join(process.cwd(), "/public/data/profile-pictures/", session.user!.id) + "/" + imgID + "." + "png";
 		let rawData = fs.readFileSync(file.filepath);
 
 		// Compress the file
@@ -65,6 +67,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 		fs.writeFile(newPath, rawData, function (err) {
 			if (err) console.log(err);
 		});
+
+		// Delete the old user profile picture
+		const userProfile: HydratedDocument<UserDataModelType> | null = await userdata.findOne({
+			_id: session.user!.id,
+		});
+		if (userProfile && userProfile.profile.imageID) {
+			fs.unlinkSync(
+				path.join(
+					process.cwd(),
+					"/public/data/profile-pictures/",
+					session.user!.id,
+					"/" + userProfile.profile.imageID + ".png",
+				),
+			);
+		}
 
 		// Update the user's profile picture
 		await userdata.updateOne(
