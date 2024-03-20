@@ -33,22 +33,22 @@ const schema = new mongoose.Schema(
 				hideEmail: {
 					type: String,
 					enum: ["everyone", "friends", "none"],
-					default: false,
+					default: "friends",
 				},
 				hideProfile: {
 					type: String,
 					enum: ["everyone", "friends", "none"],
-					default: false,
+					default: "friends",
 				},
 				hideActivity: {
 					type: String,
 					enum: ["everyone", "friends", "none"],
-					default: false,
+					default: "friends",
 				},
 				hideProfilePicture: {
 					type: String,
 					enum: ["everyone", "friends", "none"],
-					default: false,
+					default: "friends",
 				},
 			},
 			notifications: {
