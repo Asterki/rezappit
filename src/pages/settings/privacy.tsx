@@ -41,7 +41,7 @@ const SettingsPrivacy = (_props: InferGetStaticPropsType<typeof getStaticProps>)
 
 	return (
 		<div className="text-white bg-dark-1 min-h-screen flex justify-center w-full">
-			<NavbarComponent />
+			<NavbarComponent user={session?.user} />
 
 			<NotificationComponent
 				showing={showingModal}
