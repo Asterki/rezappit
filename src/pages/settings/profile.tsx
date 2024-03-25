@@ -214,7 +214,7 @@ const SettingsProfilePage = (_props: InferGetStaticPropsType<typeof getStaticPro
 									</div>
 
 									<div className="ml-4">
-										<div className="flex mt-2 relative group">
+										<div className="flex items-center mt-2 relative group">
 											<p
 												className={`text-xl  mr-2 ${
 													nameInputStatus !== "editing" ? "block" : "hidden"
@@ -267,7 +267,7 @@ const SettingsProfilePage = (_props: InferGetStaticPropsType<typeof getStaticPro
 											</p>
 										</div>
 
-										<div className="flex relative group">
+										<div className="flex items-center relative group">
 											<p
 												className={`text-neutral-400 mr-2 ${
 													usernameInputStatus !== "editing" ? "block" : "hidden"
@@ -327,7 +327,7 @@ const SettingsProfilePage = (_props: InferGetStaticPropsType<typeof getStaticPro
 							</div>
 						</section>
 
-						<section className="lg:w-7/12 w-full mt-6 flex relative group">
+						<section className="lg:w-7/12 w-full mt-6 flex items-center relative group">
 							<p className="font-semibold mr-2">Bio</p>
 
 							<p className={` mr-2 ${bioInputStatus !== "editing" ? "block" : "hidden"}`}>
