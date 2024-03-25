@@ -8,6 +8,13 @@ type Data = {
 	message?: "success" | "method-not-allowed" | "unauthorized" | "server-error" | "bad-request" | "not-found";
 };
 
+interface RequestBody {
+	hideEmail: "everyone" | "friends" | "none";
+	hideProfile: "everyone" | "friends" | "none";
+	hideActivity: "everyone" | "friends" | "none";
+	hideProfilePicture: "everyone" | "friends" | "none";
+}
+
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
@@ -41,4 +48,4 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 	}
 }
 
-export type { Data };
+export type { Data, RequestBody };
