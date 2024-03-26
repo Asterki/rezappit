@@ -4,8 +4,10 @@ import { getServerSession } from "next-auth";
 import userdata from "@/models/userdata";
 import { z } from "zod";
 
-type Data = {
+type ResponseData = {
 	message?: "success" | "method-not-allowed" | "unauthorized" | "server-error" | "bad-request" | "not-found";
+	theme?: "light" | "dark";
+	language?: "en" | "es" | "fr" | "de";
 };
 
 interface RequestBody {
@@ -15,7 +17,7 @@ interface RequestBody {
 
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
 	const session = await getServerSession(req, res, authOptions);
 	if (!session) return res.status(401).json({ message: "unauthorized" });
 
@@ -54,4 +56,4 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 	}
 }
 
-export type { Data, RequestBody };
+export type { ResponseData, RequestBody };
