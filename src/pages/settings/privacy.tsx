@@ -39,6 +39,22 @@ const SettingsPrivacy = (_props: InferGetStaticPropsType<typeof getStaticProps>)
 		dismissButtonText: "",
 	});
 
+	const currentPreferences = React.useState(null)
+
+	// Fetch the current user's preferences
+	React.useEffect(() => {
+		if (session?.user) {
+			axios
+				.get("/api/profile/preferences/privacy")
+				.then((res: AxiosResponse) => {
+					console.log(res.data)
+				})
+				.catch((err) => {
+					console.log(err)
+				})
+		}
+	}, [session?.user])
+
 	return (
 		<div className="text-white bg-dark-1 min-h-screen flex justify-center w-full">
 			<NavbarComponent user={session?.user} />
