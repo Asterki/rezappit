@@ -14,7 +14,7 @@ import { useTranslation } from "next-i18next";
 import type { GetStaticProps, InferGetStaticPropsType } from "next";
 type Props = {};
 
-const SettingsPrivacy = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
+const BillingSettings = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
 	const router = useRouter();
 	const { t } = useTranslation(["main/index", "components/navbar"]);
 	const {
@@ -54,10 +54,10 @@ const SettingsPrivacy = (_props: InferGetStaticPropsType<typeof getStaticProps>)
 
 			{loggedInStatus == "authenticated" && session.user ? (
 				<main className="flex lg:flex-row flex-col mt-20 w-full">
-					<SettingsLeftBarComponent activeCategory="privacy" router={router} />
+					<SettingsLeftBarComponent activeCategory="billing" router={router} />
 
 					<div className="flex flex-col lg:w-6/12 w-full my-12 rounded-md p-4">
-						<h1 className="text-3xl font-bold">Privacy Settings</h1>
+						<h1 className="text-3xl font-bold">Billing Settings</h1>
 					</div>
 				</main>
 			) : (
@@ -73,4 +73,4 @@ export const getStaticProps: GetStaticProps<Props> = async ({ locale }) => ({
 	},
 });
 
-export default SettingsPrivacy;
+export default BillingSettings;
