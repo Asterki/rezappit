@@ -12,6 +12,8 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 
 import type { GetStaticProps, InferGetStaticPropsType } from "next";
+import { DataGet as ResponseData } from "../api/profile/preferences/privacy";
+
 type Props = {};
 
 const SettingsPrivacy = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
@@ -39,21 +41,23 @@ const SettingsPrivacy = (_props: InferGetStaticPropsType<typeof getStaticProps>)
 		dismissButtonText: "",
 	});
 
-	const currentPreferences = React.useState(null)
+	const [currentPreferences, setCurrentPreferences] = React.useState<null | ResponseData>(null);
 
 	// Fetch the current user's preferences
 	React.useEffect(() => {
 		if (session?.user) {
 			axios
 				.get("/api/profile/preferences/privacy")
-				.then((res: AxiosResponse) => {
-					console.log(res.data)
+				.then((res: AxiosResponse<ResponseData>) => {
+					if (res.status == 200) {
+						setCurrentPreferences(res.data);
+					}
 				})
-				.catch((err) => {
-					console.log(err)
-				})
+				.catch(err => {
+					console.log(err);
+				});
 		}
-	}, [session?.user])
+	}, [session?.user]);
 
 	return (
 		<div className="text-white bg-dark-1 min-h-screen flex justify-center w-full">
@@ -74,6 +78,35 @@ const SettingsPrivacy = (_props: InferGetStaticPropsType<typeof getStaticProps>)
 
 					<div className="flex flex-col lg:w-6/12 w-full my-12 rounded-md p-4">
 						<h1 className="text-3xl font-bold">Privacy Settings</h1>
+
+						<h1>hideEmail</h1>
+						<select name="" id="" value={currentPreferences?.hideEmail}> 
+							<option value="everyone">Everyone</option>
+							<option value="friends">Friends</option>
+							<option value="none">None</option>
+						</select>
+
+
+						<h1>hideProfile</h1>
+						<select name="" id="" value={currentPreferences?.hideProfile}> 
+							<option value="everyone">Everyone</option>
+							<option value="friends">Friends</option>
+							<option value="none">None</option>
+						</select>
+
+						<h1>hideActivity</h1>
+						<select name="" id="" value={currentPreferences?.hideActivity}> 
+							<option value="everyone">Everyone</option>
+							<option value="friends">Friends</option>
+							<option value="none">None</option>
+						</select>
+
+						<h1>hideProfilePicture</h1>
+						<select name="" id="" value={currentPreferences?.hideProfilePicture}> 
+							<option value="everyone">Everyone</option>
+							<option value="friends">Friends</option>
+							<option value="none">None</option>
+						</select>
 					</div>
 				</main>
 			) : (

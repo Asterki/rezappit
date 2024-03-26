@@ -4,8 +4,15 @@ import { getServerSession } from "next-auth";
 import userdata from "@/models/userdata";
 import { z } from "zod";
 
-type Data = {
+type DataPost = {
 	message?: "success" | "method-not-allowed" | "unauthorized" | "server-error" | "bad-request" | "not-found";
+};
+
+type DataGet = {
+	hideEmail: "everyone" | "friends" | "none" | undefined;
+	hideProfile: "everyone" | "friends" | "none" | undefined;
+	hideActivity: "everyone" | "friends" | "none" | undefined;
+	hideProfilePicture: "everyone" | "friends" | "none" | undefined;
 };
 
 interface RequestBody {
@@ -17,7 +24,7 @@ interface RequestBody {
 
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 	const session = await getServerSession(req, res, authOptions);
 	if (!session) return res.status(401).json({ message: "unauthorized" });
 
@@ -58,4 +65,4 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 	}
 }
 
-export type { Data, RequestBody };
+export type { DataPost, DataGet, RequestBody };
