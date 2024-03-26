@@ -4,27 +4,24 @@ import { getServerSession } from "next-auth";
 import userdata from "@/models/userdata";
 import { z } from "zod";
 
-type DataPost = {
-	message?: "success" | "method-not-allowed" | "unauthorized" | "server-error" | "bad-request" | "not-found";
-};
-
-type DataGet = {
-	hideEmail: "everyone" | "friends" | "none" | undefined;
-	hideProfile: "everyone" | "friends" | "none" | undefined;
-	hideActivity: "everyone" | "friends" | "none" | undefined;
-	hideProfilePicture: "everyone" | "friends" | "none" | undefined;
-};
-
-interface RequestBody {
+type RequestData = {
 	hideEmail: "everyone" | "friends" | "none";
 	hideProfile: "everyone" | "friends" | "none";
 	hideActivity: "everyone" | "friends" | "none";
 	hideProfilePicture: "everyone" | "friends" | "none";
-}
+};
+
+type ResponseData = {
+	message: "success" | "method-not-allowed" | "unauthorized" | "server-error" | "bad-request" | "not-found";
+	hideEmail?: "everyone" | "friends" | "none";
+	hideProfile?: "everyone" | "friends" | "none";
+	hideActivity?: "everyone" | "friends" | "none";
+	hideProfilePicture?: "everyone" | "friends" | "none";
+};
 
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
 	const session = await getServerSession(req, res, authOptions);
 	if (!session) return res.status(401).json({ message: "unauthorized" });
 
@@ -33,10 +30,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 			const data = await userdata.findById(session.user!.id);
 			if (!data) return res.status(404).json({ message: "not-found" });
 
-			return res.status(200).json(data.preferences.privacy);
+			return res.status(200).json({ message: "success", ...data.preferences.privacy });
 		} catch (error) {
 			return res.status(500).json({ message: "server-error" });
 		}
+		1;
 	} else if (req.method == "POST") {
 		try {
 			const parsedBody = z
@@ -65,4 +63,4 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 	}
 }
 
-export type { DataPost, DataGet, RequestBody };
+export type { RequestData, ResponseData };

@@ -12,7 +12,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 
 import type { GetStaticProps, InferGetStaticPropsType } from "next";
-import { DataGet as ResponseData } from "../api/profile/preferences/privacy";
+import { ResponseData } from "../api/profile/preferences/privacy";
 
 type Props = {};
 
