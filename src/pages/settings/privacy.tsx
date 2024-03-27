@@ -13,6 +13,7 @@ import { useTranslation } from "next-i18next";
 
 import type { GetStaticProps, InferGetStaticPropsType } from "next";
 import { ResponseData } from "../api/profile/preferences/privacy";
+import { set } from "mongoose";
 
 type Props = {};
 
@@ -50,6 +51,7 @@ const SettingsPrivacy = (_props: InferGetStaticPropsType<typeof getStaticProps>)
 				.get("/api/profile/preferences/privacy")
 				.then((res: AxiosResponse<ResponseData>) => {
 					if (res.status == 200) {
+						console.log(res.data)
 						setCurrentPreferences(res.data);
 					}
 				})
@@ -58,6 +60,34 @@ const SettingsPrivacy = (_props: InferGetStaticPropsType<typeof getStaticProps>)
 				});
 		}
 	}, [session?.user]);
+
+	React.useEffect(() => {
+		if (currentPreferences) {
+			axios
+				.post("/api/profile/preferences/privacy", currentPreferences)
+				.then((res: AxiosResponse<ResponseData>) => {
+					if (res.status == 200) {
+						console.log(res.data)
+						setShowingModal(true);
+						setModalInfo({
+							title: "Success",
+							message: "Your preferences have been updated.",
+							type: "success",
+							dismissButtonText: "Close",
+						});
+					}
+				})
+				.catch(err => {
+					setShowingModal(true);
+					setModalInfo({
+						title: "Error",
+						message: "An error occurred while updating your preferences.",
+						type: "error",
+						dismissButtonText: "Close",
+					});
+				});
+		}
+	}, [currentPreferences])
 
 	return (
 		<div className="text-white bg-dark-1 min-h-screen flex justify-center w-full">
@@ -80,7 +110,9 @@ const SettingsPrivacy = (_props: InferGetStaticPropsType<typeof getStaticProps>)
 						<h1 className="text-3xl font-bold">Privacy Settings</h1>
 
 						<h1>hideEmail</h1>
-						<select name="" id="" value={currentPreferences?.hideEmail}> 
+						<select name="" id="" defaultValue={currentPreferences?.hideEmail} onChange={(e) => {
+							setCurrentPreferences({...currentPreferences, hideEmail: e.target.value} as ResponseData)
+						}}> 
 							<option value="everyone">Everyone</option>
 							<option value="friends">Friends</option>
 							<option value="none">None</option>
@@ -88,21 +120,27 @@ const SettingsPrivacy = (_props: InferGetStaticPropsType<typeof getStaticProps>)
 
 
 						<h1>hideProfile</h1>
-						<select name="" id="" value={currentPreferences?.hideProfile}> 
+						<select name="" id="" defaultValue={currentPreferences?.hideProfile} onChange={(e) => {
+							setCurrentPreferences({...currentPreferences, hideProfile: e.target.value} as ResponseData)
+						}}> 
 							<option value="everyone">Everyone</option>
 							<option value="friends">Friends</option>
 							<option value="none">None</option>
 						</select>
 
 						<h1>hideActivity</h1>
-						<select name="" id="" value={currentPreferences?.hideActivity}> 
+						<select name="" id="" defaultValue={currentPreferences?.hideActivity} onChange={(e) => {
+							setCurrentPreferences({...currentPreferences, hideActivity: e.target.value} as ResponseData)
+						}}> 
 							<option value="everyone">Everyone</option>
 							<option value="friends">Friends</option>
 							<option value="none">None</option>
 						</select>
 
 						<h1>hideProfilePicture</h1>
-						<select name="" id="" value={currentPreferences?.hideProfilePicture}> 
+						<select name="" id="" defaultValue={currentPreferences?.hideProfilePicture} onChange={(e) => {
+							setCurrentPreferences({...currentPreferences, hideProfilePicture: e.target.value} as ResponseData)
+						}}> 
 							<option value="everyone">Everyone</option>
 							<option value="friends">Friends</option>
 							<option value="none">None</option>

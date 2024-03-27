@@ -21,7 +21,7 @@ const HomePage = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
 
 	return (
 		<div className="text-white bg-dark-1 min-h-screen flex justify-center">
-			<NavbarComponent />
+			<NavbarComponent user={session?.user} />
 
 			<main className="flex justify-around mt-20 w-10/12">
 				<div className="bg-neutral-900 w-3/12 p-4 sticky rounded-md text-neutral-300 justify-end self-start my-12">
