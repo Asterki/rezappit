@@ -15,8 +15,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFloppyDisk, faPencil, faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 // API Types
-import type { Data as FetchProfileDataResponse } from "@/pages/api/profile/fetch";
-import type { Data as ProfilePictureUploadDataResponse } from "@/pages/api/profile/picture/upload";
+import type { ResponseData as ProfileDataResponse } from "@/pages/api/profile";
+import type { ResponseData as ProfilePictureUploadDataResponse } from "@/pages/api/profile/picture/upload";
 
 import type { GetStaticProps, InferGetStaticPropsType } from "next";
 type Props = {};
@@ -77,25 +77,32 @@ const SettingsProfilePage = (_props: InferGetStaticPropsType<typeof getStaticPro
 				type: "error",
 				dismissButtonText: "Done",
 			});
-			setShowingModal(true);
-			return;
+			return setShowingModal(true);
 		}
 
-		const response: AxiosResponse<FetchProfileDataResponse> = await axios({
-			method: "post",
-			url: "/api/profile/update",
-			data: {
-				...parsedProfile.data,
-			},
-		});
-
-		setModalInfo({
-			title: "Profile updated!",
-			message: "Your profile has been updated successfully!",
-			type: "info",
-			dismissButtonText: "Done",
-		});
-		setShowingModal(true);
+		try {
+			const response: AxiosResponse<ProfileDataResponse<"POST">> = await axios.post("/api/profile/update", parsedProfile.data);
+			if (response.data.message == "success") {
+				setModalInfo({
+					title: "Profile updated!",
+					message: "Your profile has been updated successfully!",
+					type: "info",
+					dismissButtonText: "Done",
+				});
+				setShowingModal(true);
+			} else {
+				throw new Error("An error occurred while updating your profile.");	
+			}
+		} catch (err) {
+			setModalInfo({
+				title: "Error!",
+				message: "There was an error updating your profile!",
+				type: "error",
+				dismissButtonText: "Done",
+			});
+			setShowingModal(true);
+			console.error(err);
+		}
 
 		setNameInputStatus("showing");
 		setUsernameInputStatus("showing");
@@ -106,21 +113,28 @@ const SettingsProfilePage = (_props: InferGetStaticPropsType<typeof getStaticPro
 		(async () => {
 			if (loggedInStatus !== "authenticated" || !session.user) return;
 
-			const response: AxiosResponse<FetchProfileDataResponse> = await axios({
-				method: "post",
-				url: "/api/profile/fetch",
-				data: {
-					username: "s", // The "s" stands for "self", as in the user is fetching their own profile
-				},
-			});
-
-			if (response.data.profile)
-				setProfile({
-					name: session.user.name,
-					username: session.user.username,
-					bio: response.data.profile?.bio,
-					imageID: response.data.profile?.imageID,
+			try {
+				const response: AxiosResponse<ProfileDataResponse<"GET">> = await axios.get("/api/profile/");
+				if (response.data.profile && session.user)
+					setProfile({
+						name: session.user.name,
+						username: session.user.username,
+						bio: response.data.profile?.bio,
+						imageID: response.data.profile?.imageID,
+					});
+				else {
+					throw new Error("An error occurred while fetching your profile.");
+				}
+			} catch (error) {
+				setModalInfo({
+					title: "Error!",
+					message: "There was an error fetching your profile!",
+					type: "error",
+					dismissButtonText: "Done",
 				});
+				setShowingModal(true);
+				console.error(error);
+			}
 		})();
 	}, [loggedInStatus, session]);
 

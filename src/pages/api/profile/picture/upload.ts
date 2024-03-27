@@ -8,7 +8,7 @@ import path from "path";
 import userdata, { UserDataModelType } from "@/models/userdata";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
-type Data = {
+type ResponseData = {
 	message?: "success" | "method-not-allowed" | "unauthorized" | "server-error" | "bad-request";
 };
 
@@ -21,7 +21,7 @@ export const config = {
 import type { NextApiRequest, NextApiResponse } from "next";
 import { HydratedDocument } from "mongoose";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
 	if (req.method !== "POST") return res.status(405).json({ message: "method-not-allowed" });
 
 	const session = await getServerSession(req, res, authOptions);
@@ -99,4 +99,4 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 	}
 }
 
-export type { Data };
+export type { ResponseData };
