@@ -19,15 +19,7 @@ type ResponseDataPost = {
 };
 type ResponseData<T extends "GET" | "POST"> = T extends "GET" ? ResponseDataGet : ResponseDataPost;
 
-type RequestDataGet = {
-	preferences: {
-		hideEmail: "everyone" | "friends" | "none";
-		hideProfile: "everyone" | "friends" | "none";
-		hideActivity: "everyone" | "friends" | "none";
-		hideProfilePicture: "everyone" | "friends" | "none";
-	};
-	message: "success" | "method-not-allowed" | "unauthorized" | "server-error" | "bad-request" | "not-found";
-};
+type RequestDataGet = {};
 type RequestDataPost = {
 	theme: "light" | "dark";
 	language: "en" | "es" | "fr" | "de";

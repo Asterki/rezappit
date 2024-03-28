@@ -12,7 +12,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 
 import type { GetStaticProps, InferGetStaticPropsType } from "next";
-import { ResponseData } from "../api/profile/preferences/privacy";
+import { RequestData, ResponseData } from "../api/profile/preferences/privacy";
 import { set } from "mongoose";
 
 type Props = {};
@@ -42,17 +42,17 @@ const SettingsPrivacy = (_props: InferGetStaticPropsType<typeof getStaticProps>)
 		dismissButtonText: "",
 	});
 
-	const [currentPreferences, setCurrentPreferences] = React.useState<null | ResponseData>(null);
+	const [currentPreferences, setCurrentPreferences] = React.useState<null | ResponseData<"GET">["preferences"]>(null);
 
 	// Fetch the current user's preferences
 	React.useEffect(() => {
 		if (session?.user) {
 			axios
 				.get("/api/profile/preferences/privacy")
-				.then((res: AxiosResponse<ResponseData>) => {
+				.then((res: AxiosResponse<ResponseData<"GET">>) => {
 					if (res.status == 200) {
 						console.log(res.data)
-						setCurrentPreferences(res.data);
+						setCurrentPreferences(res.data.preferences);
 					}
 				})
 				.catch(err => {
@@ -65,7 +65,7 @@ const SettingsPrivacy = (_props: InferGetStaticPropsType<typeof getStaticProps>)
 		if (currentPreferences) {
 			axios
 				.post("/api/profile/preferences/privacy", currentPreferences)
-				.then((res: AxiosResponse<ResponseData>) => {
+				.then((res: AxiosResponse<ResponseData<"POST">>) => {
 					if (res.status == 200) {
 						console.log(res.data)
 						setShowingModal(true);
@@ -111,7 +111,7 @@ const SettingsPrivacy = (_props: InferGetStaticPropsType<typeof getStaticProps>)
 
 						<h1>hideEmail</h1>
 						<select name="" id="" defaultValue={currentPreferences?.hideEmail} onChange={(e) => {
-							setCurrentPreferences({...currentPreferences, hideEmail: e.target.value} as ResponseData)
+							setCurrentPreferences({...currentPreferences, hideEmail: e.target.value} as ResponseData<"GET">["preferences"])
 						}}> 
 							<option value="everyone">Everyone</option>
 							<option value="friends">Friends</option>
@@ -121,7 +121,7 @@ const SettingsPrivacy = (_props: InferGetStaticPropsType<typeof getStaticProps>)
 
 						<h1>hideProfile</h1>
 						<select name="" id="" defaultValue={currentPreferences?.hideProfile} onChange={(e) => {
-							setCurrentPreferences({...currentPreferences, hideProfile: e.target.value} as ResponseData)
+							setCurrentPreferences({...currentPreferences, hideProfile: e.target.value} as ResponseData<"GET">["preferences"])
 						}}> 
 							<option value="everyone">Everyone</option>
 							<option value="friends">Friends</option>
@@ -130,7 +130,7 @@ const SettingsPrivacy = (_props: InferGetStaticPropsType<typeof getStaticProps>)
 
 						<h1>hideActivity</h1>
 						<select name="" id="" defaultValue={currentPreferences?.hideActivity} onChange={(e) => {
-							setCurrentPreferences({...currentPreferences, hideActivity: e.target.value} as ResponseData)
+							setCurrentPreferences({...currentPreferences, hideActivity: e.target.value} as ResponseData<"GET">["preferences"])
 						}}> 
 							<option value="everyone">Everyone</option>
 							<option value="friends">Friends</option>
@@ -139,7 +139,7 @@ const SettingsPrivacy = (_props: InferGetStaticPropsType<typeof getStaticProps>)
 
 						<h1>hideProfilePicture</h1>
 						<select name="" id="" defaultValue={currentPreferences?.hideProfilePicture} onChange={(e) => {
-							setCurrentPreferences({...currentPreferences, hideProfilePicture: e.target.value} as ResponseData)
+							setCurrentPreferences({...currentPreferences, hideProfilePicture: e.target.value} as ResponseData<"GET">["preferences"])
 						}}> 
 							<option value="everyone">Everyone</option>
 							<option value="friends">Friends</option>

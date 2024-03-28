@@ -17,15 +17,7 @@ type ResponseDataPost = {
 };
 type ResponseData<T extends "GET" | "POST"> = T extends "GET" ? ResponseDataGet : ResponseDataPost;
 
-type RequestDataGet = {
-	preferences: {
-		hideEmail: "everyone" | "friends" | "none";
-		hideProfile: "everyone" | "friends" | "none";
-		hideActivity: "everyone" | "friends" | "none";
-		hideProfilePicture: "everyone" | "friends" | "none";
-	};
-	message: "success" | "method-not-allowed" | "unauthorized" | "server-error" | "bad-request" | "not-found";
-};
+type RequestDataGet = {};
 type RequestDataPost = {
 	email: boolean;
 	push: boolean;
@@ -56,7 +48,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 				})
 				.safeParse(req.body);
 
-			if (parsedBody.success === false) return res.status(400).json({ message: "bad-request" } as ResponseDataPost);
+			if (parsedBody.success === false)
+				return res.status(400).json({ message: "bad-request" } as ResponseDataPost);
 
 			const data = await userdata.findById(session.user!.id);
 			if (!data) return res.status(404).json({ message: "not-found" } as ResponseDataPost);
