@@ -21,8 +21,10 @@ type ResponseData<T extends "GET" | "POST"> = T extends "GET" ? ResponseDataGet 
 
 type RequestDataGet = {};
 type RequestDataPost = {
-	theme: "light" | "dark";
-	language: "en" | "es" | "fr" | "de";
+	hideEmail: "everyone" | "friends" | "none";
+	hideProfile: "everyone" | "friends" | "none";
+	hideActivity: "everyone" | "friends" | "none";
+	hideProfilePicture: "everyone" | "friends" | "none";
 };
 type RequestData<T extends "GET" | "POST"> = T extends "GET" ? RequestDataGet : RequestDataPost;
 
@@ -52,7 +54,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 				})
 				.safeParse(req.body);
 
-			if (parsedBody.success === false) return res.status(400).json({ message: "bad-request" } as ResponseDataPost);
+			if (parsedBody.success === false)
+				return res.status(400).json({ message: "bad-request" } as ResponseDataPost);
 
 			const data = await userdata.findById(session.user!.id);
 			if (!data) return res.status(404).json({ message: "not-found" } as ResponseDataPost);
