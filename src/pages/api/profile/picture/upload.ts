@@ -6,6 +6,7 @@ import sharp from "sharp";
 import path from "path";
 
 import userdata, { UserDataModelType } from "@/models/userdata";
+import user from "@/models/user";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
 type ResponseData = {
@@ -88,6 +89,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 			{
 				$set: {
 					"profile.imageID": imgID,
+				},
+			},
+		);
+
+		// Update the user's profile picture in the user collection
+		await user.updateOne(
+			{ _id: session.user!.id },
+			{
+				$set: {
+					image: imgID,
 				},
 			},
 		);

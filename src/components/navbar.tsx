@@ -17,6 +17,8 @@ interface ComponentProps {
 const NavbarComponent: NextPage<ComponentProps> = props => {
 	const [menuOpen, setMenuOpen] = React.useState<boolean>(false);
 
+	console.log(props.user)
+
 	return (
 		<div className="p-2 bg-dark-2 text-white flex items-center justify-between absolute left-0 top-0 w-full">
 			<div>
@@ -37,7 +39,10 @@ const NavbarComponent: NextPage<ComponentProps> = props => {
 								width={40}
 								height={40}
 								className="rounded-full mr-2"
-								src={props.user.image}
+								src={ 
+									props.user.image == ""
+										? "/images/default-profile.png"
+										: `/data/profile-pictures/${props.user.id}/${props.user.image}.png`}
 								alt={props.user.name}
 							/>
 							<p>{props.user.name}</p>

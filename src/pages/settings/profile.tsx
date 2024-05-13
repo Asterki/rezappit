@@ -213,7 +213,7 @@ const SettingsProfilePage = (_props: InferGetStaticPropsType<typeof getStaticPro
 											width={200}
 											height={200}
 											className="rounded-full transition-all group-hover:brightness-50 cursor-pointer"
-											src={
+											src={ 
 												profile.imageID == ""
 													? "/images/default-profile.png"
 													: `/data/profile-pictures/${session.user.id}/${profile.imageID}.png`
