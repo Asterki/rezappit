@@ -8,6 +8,7 @@ import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import clientPromise from "@/lib/mongodb";
 
 import UserDataModel, { UserDataModelType } from "@/models/userdata";
+import UserModel from "@/models/user";
 import mongoose from "mongoose";
 
 export const authOptions: AuthOptions = {
@@ -41,6 +42,8 @@ export const authOptions: AuthOptions = {
 					bio: "",
 				},
 			});
+
+			await UserModel.findByIdAndUpdate(user.id, { image: "" });
 		},
 	},
 	providers: [
