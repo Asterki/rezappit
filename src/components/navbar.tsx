@@ -17,8 +17,6 @@ interface ComponentProps {
 const NavbarComponent: NextPage<ComponentProps> = props => {
 	const [menuOpen, setMenuOpen] = React.useState<boolean>(false);
 
-	console.log(props.user);
-
 	return (
 		<div className="p-2 bg-dark-2 text-white flex items-center justify-between absolute left-0 top-0 w-full">
 			<div>

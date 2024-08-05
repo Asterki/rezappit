@@ -7,8 +7,9 @@ import Image from "next/image";
 import NavbarComponent from "@/components/navbar";
 import SettingsLeftBarComponent from "@/components/profile/settingsLeftBar";
 import NotificationComponent from "@/components/notification";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import * as Select from "@radix-ui/react-select";
 
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 
 import type { GetStaticProps, InferGetStaticPropsType } from "next";
@@ -40,7 +41,7 @@ const SettingsGeneral = (_props: InferGetStaticPropsType<typeof getStaticProps>)
 	});
 
 	return (
-		<div className="text-white bg-dark-1 min-h-screen flex justify-center w-full">
+		<div className="text-white bg-dark-1 flex justify-center w-full">
 			<NavbarComponent user={session?.user} />
 
 			<NotificationComponent
@@ -58,6 +59,35 @@ const SettingsGeneral = (_props: InferGetStaticPropsType<typeof getStaticProps>)
 
 					<div className="flex flex-col lg:w-6/12 w-full my-12 rounded-md p-4">
 						<h1 className="text-3xl font-bold">General Settings</h1>
+
+						<div className="my-2 flex items-center justify-between">
+							<div>
+								<h1 className="text-2xl">Language</h1>
+								<p className="text-xs text-white/80">Choose your preferred language</p>
+							</div>
+							<div>
+								<Select.Root defaultValue="en">
+									<Select.Trigger className="bg-dark-2 p-2 rounded-md w-full">
+										<Select.Value placeholder="Select a fruit…" />
+										ewqeqw
+									</Select.Trigger>
+
+									<Select.Portal>
+										<Select.Content asChild={true} className="bg-dark-2 p-2 rounded-md w-full">
+											<Select.Viewport>
+												<Select.Item value="es">Spanish</Select.Item>
+												<Select.Item value="en">English</Select.Item>
+											</Select.Viewport>
+										</Select.Content>
+									</Select.Portal>
+								</Select.Root>
+							</div>
+						</div>
+
+						<div className="my-2">
+							<h1 className="text-2xl">Theme</h1>
+							<p className="text-xs text-white/80">Choose your preferred theme</p>
+						</div>
 					</div>
 				</main>
 			) : (

@@ -109,10 +109,9 @@ const SettingsPrivacy = (_props: InferGetStaticPropsType<typeof getStaticProps>)
 					<div className="flex flex-col lg:w-6/12 w-full my-12 rounded-md p-4">
 						<h1 className="text-3xl font-bold">Privacy Settings</h1>
 
-						<h1>hideEmail</h1>
+						<h1>Hide Email</h1>
 						<select
-							name=""
-							id=""
+		
 							defaultValue={currentPreferences?.hideEmail}
 							onChange={e => {
 								setCurrentPreferences({
@@ -121,9 +120,9 @@ const SettingsPrivacy = (_props: InferGetStaticPropsType<typeof getStaticProps>)
 								} as ResponseData<"GET">["preferences"]);
 							}}
 						>
-							<option value="everyone">Everyone</option>
-							<option value="friends">Friends</option>
-							<option value="none">None</option>
+							<option value="everyone" className="text-white">Everyone</option>
+							<option value="friends" className="text-white">Friends</option>
+							<option value="none" className="text-white">None</option>
 						</select>
 
 						<h1>hideProfile</h1>

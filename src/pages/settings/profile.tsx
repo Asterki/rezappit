@@ -81,7 +81,7 @@ const SettingsProfilePage = (_props: InferGetStaticPropsType<typeof getStaticPro
 		}
 
 		try {
-			const response: AxiosResponse<ProfileDataResponse<"POST">> = await axios.post("/api/profile/update", parsedProfile.data);
+			const response: AxiosResponse<ProfileDataResponse<"POST">> = await axios.post("/api/profile", parsedProfile.data);
 			if (response.data.message == "success") {
 				setModalInfo({
 					title: "Profile updated!",
