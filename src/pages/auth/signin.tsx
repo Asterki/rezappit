@@ -19,7 +19,7 @@ export default function SignIn({ providers }: InferGetServerSidePropsType<typeof
 	const { t } = useTranslation(["auth/signin"]);
 
 	return (
-		<div className="text-white dark:bg-neutral-900 flex flex-col items-center justify-between min-h-screen">
+		<div className="text-white bg-gradient-to-br from-emerald-500 to-purple-600 flex flex-col items-center justify-between min-h-screen">
 			<Head>
 				<title>{t("pageTitle")}</title>
 			</Head>
@@ -47,7 +47,7 @@ export default function SignIn({ providers }: InferGetServerSidePropsType<typeof
 						return (
 							<div key={provider.name} className="">
 								<button
-									className="bg-neutral-800 hover:brightness-125 transition-all w-11/12 lg:w-9/12 my-2 p-4 rounded-lg shadow-md"
+									className="border hover:brightness-125 transition-all w-11/12 lg:w-9/12 my-2 p-4 rounded-lg shadow-md"
 									onClick={() => signIn(provider.id)}
 								>
 									<FontAwesomeIcon className="mx-2" icon={icon} />

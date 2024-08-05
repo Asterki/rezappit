@@ -1,12 +1,12 @@
 const FooterComponent = () => {
 	return (
-		<div className="bg-neutral-800 flex items-center justify-center gap-24 py-16 px-64 w-full shadow-md">
+		<div className="flex items-center justify-center gap-24 py-16 lg:px-64 w-full shadow-md">
 			<div>
 				<p className="text-2xl text-white">Zappit</p>
-				<p className="text-gray-400">Your space of creativity</p>
+				<p className="text-gray-200">Your space of creativity</p>
 			</div>
 
-			<ul className="list-disc text-gray-400">
+			<ul className="list-disc text-gray-200">
 				<li>
 					<a className="hover:underline hover:text-white" href="mailto:asterki.dev@proton.me">Contact</a>
 				</li>
@@ -22,7 +22,7 @@ const FooterComponent = () => {
 				</li>
 			</ul>
 
-			<ul className="list-disc text-gray-400">
+			<ul className="list-disc text-gray-200">
 				<li>
 					<a className="hover:underline hover:text-white" href="/about">
 						<p>About</p>

@@ -18,7 +18,7 @@ const NavbarComponent: NextPage<ComponentProps> = props => {
 	const [menuOpen, setMenuOpen] = React.useState<boolean>(false);
 
 	return (
-		<div className="p-2 bg-dark-2 text-white flex items-center justify-between w-full">
+		<div className="p-2 text-white flex items-center justify-between w-full">
 			<div>
 				<p className="text-2xl lg:ml-20 ml-10">Zappit</p>
 			</div>
@@ -97,10 +97,10 @@ const NavbarComponent: NextPage<ComponentProps> = props => {
 			)}
 			{!props.user && (
 				<div className="flex items-center justify-center py-4 lg:mr-20 mr-10 gap-4">
-					<a className="p-2 rounded-md bg-blue-400 text-white shadow-md" href="/login">
+					<a className="shadow-md border p-2 rounded-md" href="/login">
 						Login
 					</a>
-					<a className="p-2 rounded-md bg-blue-400 text-white shadow-md" href="/register">
+					<a className="shadow-md border p-2 rounded-md" href="/register">
 						Register
 					</a>
 				</div>
