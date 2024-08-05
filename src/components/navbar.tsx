@@ -11,16 +11,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronCircleDown } from "@fortawesome/free-solid-svg-icons";
 
 interface ComponentProps {
-	user: Session["user"];
+	user?: Session["user"];
 }
 
 const NavbarComponent: NextPage<ComponentProps> = props => {
 	const [menuOpen, setMenuOpen] = React.useState<boolean>(false);
 
 	return (
-		<div className="p-2 bg-dark-2 text-white flex items-center justify-between absolute left-0 top-0 w-full">
+		<div className="p-2 bg-dark-2 text-white flex items-center justify-between w-full">
 			<div>
-				<p className="text-2xl">Zappit</p>
+				<p className="text-2xl lg:ml-20 ml-10">Zappit</p>
 			</div>
 			{props.user && (
 				<div className="w-2/12 relative">
@@ -96,11 +96,11 @@ const NavbarComponent: NextPage<ComponentProps> = props => {
 				</div>
 			)}
 			{!props.user && (
-				<div className="flex items-center justify-center">
-					<a className="decoration-none text-blue-400" href="/login">
+				<div className="flex items-center justify-center py-4 lg:mr-20 mr-10 gap-4">
+					<a className="p-2 rounded-md bg-blue-400 text-white shadow-md" href="/login">
 						Login
 					</a>
-					<a className="decoration-none text-blue-400" href="/register">
+					<a className="p-2 rounded-md bg-blue-400 text-white shadow-md" href="/register">
 						Register
 					</a>
 				</div>
